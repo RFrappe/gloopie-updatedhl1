@@ -84,7 +84,7 @@ CHalfLifeMultiplay::CHalfLifeMultiplay()
 	{
 		// listen server
 		char* lservercfgfile = (char*)CVAR_GET_STRING("lservercfgfile");
-
+		ALERT(at_console, "This is a listen server!\n");
 		if (lservercfgfile && '\0' != lservercfgfile[0])
 		{
 			char szCommand[256];
@@ -188,9 +188,11 @@ void CHalfLifeMultiplay::Think()
 
 		// check to see if we should change levels now
 		if (m_flIntermissionEndTime < gpGlobals->time)
+			ALERT(at_console, "Checking if we can change level....\n");
 		{
 			if (m_iEndIntermissionButtonHit // check that someone has pressed a key, or the max intermission time is over
 				|| ((m_flIntermissionStartTime + MAX_INTERMISSION_TIME) < gpGlobals->time))
+				ALERT(at_console, "Allowed!\nChanging Levels\n");
 				ChangeLevel(); // intermission is over
 		}
 
@@ -335,7 +337,7 @@ void CHalfLifeMultiplay::UpdateGameMode(CBasePlayer* pPlayer)
 void CHalfLifeMultiplay::InitHUD(CBasePlayer* pl)
 {
 	// notify other clients of player joining the game
-	UTIL_ClientPrintAll(HUD_PRINTNOTIFY, UTIL_VarArgs("%s has joined the game\n",
+	UTIL_ClientPrintAll(HUD_PRINTNOTIFY, UTIL_VarArgs("%s has connected\n",
 											 (!FStringNull(pl->pev->netname) && STRING(pl->pev->netname)[0] != 0) ? STRING(pl->pev->netname) : "unconnected"));
 
 	// team match?

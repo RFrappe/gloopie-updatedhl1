@@ -47,7 +47,7 @@ void CGlock::Precache()
 	PRECACHE_SOUND("items/9mmclip1.wav");
 	PRECACHE_SOUND("items/9mmclip2.wav");
 
-	PRECACHE_SOUND("weapons/pl_gun1.wav"); //silenced handgun
+	PRECACHE_SOUND("weapons/pl_gun1.wav"); //silenced handgun (shit is not used lmfao)
 	PRECACHE_SOUND("weapons/pl_gun2.wav"); //silenced handgun
 	PRECACHE_SOUND("weapons/pl_gun3.wav"); //handgun
 
@@ -75,6 +75,7 @@ bool CGlock::GetItemInfo(ItemInfo* p)
 bool CGlock::Deploy()
 {
 	// pev->body = 1;
+	ALERT(at_console, "/nAmerican Spirit deployed!");
 	return DefaultDeploy("models/v_9mmhandgun.mdl", "models/p_9mmhandgun.mdl", GLOCK_DRAW, "onehanded");
 }
 

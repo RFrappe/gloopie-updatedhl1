@@ -58,7 +58,6 @@ static inline bool EV_HLDM_IsBSPModel(physent_t* pe)
 {
 	return pe != nullptr && (pe->solid == SOLID_BSP || pe->movetype == MOVETYPE_PUSHSTEP);
 }
-
 // play a strike sound based on the texture that was hit by the attack traceline.  VecSrc/VecEnd are the
 // original traceline endpoints used by the attacker, iBulletType is the type of bullet that hit the texture.
 // returns volume of strike instrument (crowbar) to play
@@ -219,6 +218,19 @@ float EV_HLDM_PlayTextureSound(int idx, pmtrace_t* ptr, float* vecSrc, float* ve
 	gEngfuncs.pEventAPI->EV_PlaySound(0, ptr->endpos, CHAN_STATIC, rgsz[gEngfuncs.pfnRandomLong(0, cnt - 1)], fvol, fattn, 0, 96 + gEngfuncs.pfnRandomLong(0, 0xf));
 	return fvolbar;
 }
+
+// mazor begin
+void EV_HLDM_MuzzleFlash(vec3_t pos, float amount)
+{
+	dlight_t* dl = gEngfuncs.pEfxAPI->CL_AllocDlight(0);
+	dl->origin = pos;
+	dl->color.r = 255; // red
+	dl->color.g = 255; // green
+	dl->color.b = 128; // blue
+	dl->radius = amount * 100;
+	dl->die = gEngfuncs.GetClientTime() + 0.01;
+}
+// mazor end
 
 char* EV_HLDM_DamageDecal(physent_t* pe)
 {
@@ -488,6 +500,7 @@ void EV_FireGlock1(event_args_t* args)
 	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/pl_gun3.wav", gEngfuncs.pfnRandomFloat(0.92, 1.0), ATTN_NORM, 0, 98 + gEngfuncs.pfnRandomLong(0, 3));
 
 	EV_GetGunPosition(args, vecSrc, origin);
+	EV_HLDM_MuzzleFlash(vecSrc, 1.0 + gEngfuncs.pfnRandomFloat(-0.2, 0.2));
 
 	VectorCopy(forward, vecAiming);
 
@@ -534,6 +547,7 @@ void EV_FireGlock2(event_args_t* args)
 	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/pl_gun3.wav", gEngfuncs.pfnRandomFloat(0.92, 1.0), ATTN_NORM, 0, 98 + gEngfuncs.pfnRandomLong(0, 3));
 
 	EV_GetGunPosition(args, vecSrc, origin);
+	EV_HLDM_MuzzleFlash(vecSrc, 1.0 + gEngfuncs.pfnRandomFloat(-0.2, 0.2));
 
 	VectorCopy(forward, vecAiming);
 
@@ -587,6 +601,7 @@ void EV_FireShotGunDouble(event_args_t* args)
 	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/dbarrel1.wav", gEngfuncs.pfnRandomFloat(0.98, 1.0), ATTN_NORM, 0, 85 + gEngfuncs.pfnRandomLong(0, 0x1f));
 
 	EV_GetGunPosition(args, vecSrc, origin);
+	EV_HLDM_MuzzleFlash(vecSrc, 1.0 + gEngfuncs.pfnRandomFloat(-0.2, 0.2));
 	VectorCopy(forward, vecAiming);
 
 	if (gEngfuncs.GetMaxClients() > 1)
@@ -637,8 +652,9 @@ void EV_FireShotGunSingle(event_args_t* args)
 	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/sbarrel1.wav", gEngfuncs.pfnRandomFloat(0.95, 1.0), ATTN_NORM, 0, 93 + gEngfuncs.pfnRandomLong(0, 0x1f));
 
 	EV_GetGunPosition(args, vecSrc, origin);
-	VectorCopy(forward, vecAiming);
-
+	// mazor begin
+	EV_HLDM_MuzzleFlash(vecSrc, 1.0 + gEngfuncs.pfnRandomFloat(-0.2, 0.2));
+	// mazor end
 	if (gEngfuncs.GetMaxClients() > 1)
 	{
 		EV_HLDM_FireBullets(idx, forward, right, up, 4, vecSrc, vecAiming, 2048, BULLET_PLAYER_BUCKSHOT, 0, &tracerCount[idx - 1], 0.08716, 0.04362);
@@ -701,6 +717,7 @@ void EV_FireMP5(event_args_t* args)
 	}
 
 	EV_GetGunPosition(args, vecSrc, origin);
+	EV_HLDM_MuzzleFlash(vecSrc, 1.0 + gEngfuncs.pfnRandomFloat(-0.2, 0.2));
 	VectorCopy(forward, vecAiming);
 
 	EV_HLDM_FireBullets(idx, forward, right, up, 1, vecSrc, vecAiming, 8192, BULLET_PLAYER_MP5, 2, &tracerCount[idx - 1], args->fparam1, args->fparam2);
@@ -780,6 +797,7 @@ void EV_FirePython(event_args_t* args)
 	}
 
 	EV_GetGunPosition(args, vecSrc, origin);
+	EV_HLDM_MuzzleFlash(vecSrc, 1.0 + gEngfuncs.pfnRandomFloat(-0.2, 0.2));
 
 	VectorCopy(forward, vecAiming);
 
@@ -864,6 +882,8 @@ void EV_FireGauss(event_args_t* args)
 
 	//	Con_Printf( "Firing gauss with %f\n", flDamage );
 	EV_GetGunPosition(args, vecSrc, origin);
+	EV_HLDM_MuzzleFlash(vecSrc, 1.0 + gEngfuncs.pfnRandomFloat(-0.2, 0.2));
+
 
 	m_iBeam = gEngfuncs.pEventAPI->EV_FindModelIndex("sprites/smoke.spr");
 	m_iBalls = m_iGlow = gEngfuncs.pEventAPI->EV_FindModelIndex("sprites/hotglow.spr");

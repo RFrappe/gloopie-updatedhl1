@@ -658,6 +658,9 @@ void V_CalcNormalRefdef(struct ref_params_s* pparams)
 	view->angles[ROLL] -= bob * 1;
 	view->angles[PITCH] -= bob * 0.3;
 
+	// Enables old HL WON view bobbing (Thanks TWHL)
+	VectorCopy(view->angles, view->curstate.angles);
+
 	if (0 != cl_bobtilt->value)
 	{
 		VectorCopy(view->angles, view->curstate.angles);

@@ -2518,12 +2518,18 @@ void PM_NoClip()
 #define BUNNYJUMP_MAX_SPEED_FACTOR 1.7f
 
 //-----------------------------------------------------------------------------
-// Purpose: Corrects bunny jumping ( where player initiates a bunny jump before other
+// Purpose: Corrects bunny jumping (because we hate funny >:/) ( where player initiates a bunny jump before other
 //  movement logic runs, thus making onground == -1 thus making PM_Friction get skipped and
 //  running PM_AirMove, which doesn't crop velocity to maxspeed like the ground / other
 //  movement logic does.
+// We at the Gloopie Corp hate this fucking code and will be commenting this out,
+// 
+// fuck you :3
+// 
+// -jolly goober
+// ps: kys
 //-----------------------------------------------------------------------------
-void PM_PreventMegaBunnyJumping()
+/* void PM_PreventMegaBunnyJumping()
 {
 	const bool allowBunnyHopping = atoi(pmove->PM_Info_ValueForKey(pmove->physinfo, "bj")) == 1;
 
@@ -2553,7 +2559,7 @@ void PM_PreventMegaBunnyJumping()
 	fraction = (maxscaledspeed / spd) * 0.65; //Returns the modifier for the velocity
 
 	VectorScale(pmove->velocity, fraction, pmove->velocity); //Crop it down!.
-}
+}*/
 
 /*
 =============
@@ -2643,7 +2649,7 @@ void PM_Jump()
 	// In the air now.
 	pmove->onground = -1;
 
-	PM_PreventMegaBunnyJumping();
+	//PM_PreventMegaBunnyJumping();  <---- we hate this line of code >:(
 
 	// Don't play jump sounds while frozen.
 	if ((pmove->flags & FL_FROZEN) == 0)
