@@ -1,6 +1,6 @@
 # About
 
-[Half-Life Updated](https://github.com/twhl-community/halflife-updated), [Opposing Force Updated](https://github.com/twhl-community/halflife-op4-updated) and [Blue Shift Updated](https://github.com/twhl-community/halflife-bs-updated) are repositories that provide updated versions of the Half-Life SDK, targeted to the 3 Half-Life 1 PC games officially available.
+Gloopie: The Gloopening is a mod for Half-Life 1. It is based on the [Half-Life Updated SDK](https://github.com/twhl-community/halflife-updated). 
 
 # Purpose
 
