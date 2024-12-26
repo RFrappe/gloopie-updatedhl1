@@ -458,6 +458,10 @@ cvar_t sv_pushable_fixed_tick_fudge = {"sv_pushable_fixed_tick_fudge", "15"};
 
 cvar_t sv_busters = {"sv_busters", "0", FCVAR_SERVER};
 
+// Custom CVars for the gloopie mod go here :3
+cvar_t sv_allow_quickplay = {"sv_allow_quickplay", "1"};
+
+
 static bool SV_InitServer()
 {
 	if (!FileSystem_LoadFileSystem())
@@ -930,6 +934,9 @@ void GameDLLInit()
 	// END REGISTER CVARS FOR SKILL LEVEL STUFF
 
 	CVAR_REGISTER(&sv_pushable_fixed_tick_fudge);
+
+	//CVAR Registration for custom cvars
+	CVAR_REGISTER(&sv_allow_quickplay);
 
 	InitMapLoadingUtils();
 
