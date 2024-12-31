@@ -936,7 +936,6 @@ void GameDLLInit()
 	CVAR_REGISTER(&sv_pushable_fixed_tick_fudge);
 
 	//CVAR Registration for custom cvars
-	CVAR_REGISTER(&sv_allow_quickplay);
 
 	InitMapLoadingUtils();
 
